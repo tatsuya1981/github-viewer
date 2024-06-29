@@ -1,22 +1,39 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { apiData } from '../services/api';
 
-const defaultUser = {
-  image: './assets/test.png',
-  userName: 'test',
-  email: 'test@example.com',
-};
+// const defaultUser = {
+//   image: './assets/test.png',
+//   userName: 'test',
+//   email: 'test@example.com',
+// };
+
+export const githubUser = createAsyncThunk('user/githubUser', async (username) => {
+  const apiUser = await apiData(username);
+  return apiUser;
+});
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    data: defaultUser,
+    data: null,
+    status: 'idle',
+    error: null,
   },
-  reducers: {
-    addUser: (state) => {
-      return state;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(githubUser.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(githubUser.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.data = action.payload;
+      })
+      .addCase(githubUser.rejected, (state, action) => {
+        state.status = 'failed';
+        state.data = action.error.message;
+      });
   },
 });
 
-export const { addUser } = userSlice.actions;
 export default userSlice.reducer;

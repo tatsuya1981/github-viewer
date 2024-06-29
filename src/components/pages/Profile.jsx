@@ -1,8 +1,20 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { githubUser } from '../../redux/user';
 
 export const Profile = () => {
   const user = useSelector((state) => state.user.data);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(githubUser('tatsuya1981'));
+  }, [dispatch]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <SUserContainer>
       <SUserWrapper>
@@ -11,17 +23,35 @@ export const Profile = () => {
           <SProfileContents>
             <SUserTitle>プロフィール</SUserTitle>
             <SUserInfo>
-              <SAvatarImage src={user.image} alt="profile" />
+              <SAvatarImage src={user.avatar_url} alt="profile" />
             </SUserInfo>
           </SProfileContents>
           <SProfileContents>
             <div>
               <SUserTitle>ユーザ名</SUserTitle>
-              <SUserInfo>{user.userName}</SUserInfo>
+              <SUserInfo>{user.login}</SUserInfo>
             </div>
             <div>
-              <SUserTitle>メールアドレス</SUserTitle>
-              <SUserInfo>{user.email}</SUserInfo>
+              <SUserTitle>アカウントURL</SUserTitle>
+              <SUserInfo>
+                <a href={user.html_url}>{user.html_url}</a>
+              </SUserInfo>
+            </div>
+            <div>
+              <SUserTitle>フォロー数</SUserTitle>
+              <SUserInfo>{user.following}</SUserInfo>
+            </div>
+            <div>
+              <SUserTitle>フォロワー数</SUserTitle>
+              <SUserInfo>{user.followers}</SUserInfo>
+            </div>
+            <div>
+              <SUserTitle>パブリックレポジトリ数</SUserTitle>
+              <SUserInfo>{user.public_repos}</SUserInfo>
+            </div>
+            <div>
+              <SUserTitle>プライベートレポジトリ数</SUserTitle>
+              <SUserInfo>{user.privateReposCount}</SUserInfo>
             </div>
           </SProfileContents>
         </SUserProfileContainer>
@@ -72,6 +102,7 @@ const SUserInfo = styled.p`
 `;
 
 const SAvatarImage = styled.img`
-  width: 20%;
+  width: 120px;
+  height: 120px;
   min-width: 60px;
 `;
