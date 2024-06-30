@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react';
 
 export const Issue = () => {
   const issueList = useSelector((state) => state.issues.list);
+  console.log(issueList);
   const [keyword, setKeyword] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
   const filteredIssues = useMemo(() => {

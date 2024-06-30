@@ -1,11 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { apiData } from '../services/api';
-
-// const defaultUser = {
-//   image: './assets/test.png',
-//   userName: 'test',
-//   email: 'test@example.com',
-// };
+import { apiData } from '../services/userApi';
 
 export const githubUser = createAsyncThunk('user/githubUser', async (username) => {
   const apiUser = await apiData(username);
@@ -15,7 +9,7 @@ export const githubUser = createAsyncThunk('user/githubUser', async (username) =
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    data: null,
+    data: {},
     status: 'idle',
     error: null,
   },

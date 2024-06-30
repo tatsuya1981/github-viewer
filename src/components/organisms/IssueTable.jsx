@@ -47,7 +47,7 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
         </thead>
         <tbody>
           {issues.map((issue) => (
-            <SIssueTableRow key={issue.id} onClick={() => handleIssueClick(issue)}>
+            <SIssueTableRow key={issue.number} onClick={() => handleIssueClick(issue)}>
               <SIssueBodyCheckBox
                 onClick={(event) => {
                   event.stopPropagation();
@@ -55,16 +55,16 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
               >
                 <input
                   type="checkbox"
-                  checked={selectedItems.includes(issue.id)}
+                  checked={selectedItems.includes(issue.number)}
                   onChange={(e) => {
-                    const selectedId = Number(e.target.value);
-                    if (selectedItems.includes(selectedId)) {
-                      setSelectedItems(selectedItems.filter((id) => id !== selectedId));
+                    const selectedNumber = Number(e.target.value);
+                    if (selectedItems.includes(selectedNumber)) {
+                      setSelectedItems(selectedItems.filter((number) => number !== selectedNumber));
                     } else {
-                      setSelectedItems([...selectedItems, selectedId]);
+                      setSelectedItems([...selectedItems, selectedNumber]);
                     }
                   }}
-                  value={issue.id}
+                  value={issue.number}
                 ></input>
               </SIssueBodyCheckBox>
               <SIssueBodyTableTitle>{issue.title}</SIssueBodyTableTitle>

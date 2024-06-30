@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ACCESS_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
+const ACCESS_TOKEN = process.env.REACT_APP_GITHUB_TOKEN_CLASSIC;
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 export const apiData = async (username) => {

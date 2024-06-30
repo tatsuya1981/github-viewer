@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { addIssue, updateIssue } from '../../redux/issueSlice';
+import { createIssuesAsync, updateIssuesAsync } from '../../redux/issueSlice';
 import Select from 'react-select';
 import Button from '../atoms/button/Index';
 import { today } from '../../date';
@@ -39,12 +39,11 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
     if (isEdit) {
       newIssue.id = isEdit;
       newIssue.createdAt = issue.createdAt;
-      dispatch(updateIssue(newIssue));
+      dispatch(updateIssuesAsync({ issueNumber: isEdit, updateIssue: newIssue }));
     } else {
-      newIssue.id = Date.now();
       newIssue.user = user.userName;
       newIssue.createdAt = today();
-      dispatch(addIssue(newIssue));
+      dispatch(createIssuesAsync(newIssue));
     }
 
     onClose();
