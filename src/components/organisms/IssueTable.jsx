@@ -68,8 +68,8 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
                 ></input>
               </SIssueBodyCheckBox>
               <SIssueBodyTableTitle>{issue.title}</SIssueBodyTableTitle>
-              <SIssueBodyTableTitle>{issue.status}</SIssueBodyTableTitle>
-              <SIssueBodyTableTitle>{issue.user}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>{issue.state}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>{issue.user.login}</SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.createdAt}</SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.updatedAt}</SIssueBodyTableTitle>
             </SIssueTableRow>

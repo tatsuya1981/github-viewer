@@ -39,7 +39,7 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
     if (isEdit) {
       newIssue.id = isEdit;
       newIssue.createdAt = issue.createdAt;
-      dispatch(updateIssuesAsync({ issueNumber: isEdit, updateIssue: newIssue }));
+      dispatch(updateIssuesAsync({ issueNumber: issue.number, updatedIssue: newIssue }));
     } else {
       newIssue.user = user.userName;
       newIssue.createdAt = today();
