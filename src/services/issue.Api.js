@@ -26,35 +26,35 @@ export const createIssue = async (owner, repo, issue) => {
     });
     return res.data;
   } catch (error) {
-    console.error('Error fetching issues', error);
+    console.error('Error creating issues', error);
     throw error;
   }
 };
 
 export const updateIssue = async (owner, repo, issueNumber, updatedIssue) => {
   try {
-    const res = await axios.post(`${API_BASE_URL}/repos/${owner}/${repo}/issues/${issueNumber}`, updatedIssue, {
+    const res = await axios.patch(`${API_BASE_URL}/repos/${owner}/${repo}/issues/${issueNumber}`, updatedIssue, {
       headers: {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
       },
     });
     return res.data;
   } catch (error) {
-    console.error('Error fetching issues', error);
+    console.error('Error updating issues', error);
     throw error;
   }
 };
 
 export const deleteIssue = async (owner, repo, issueNumber) => {
   try {
-    const res = await axios.post(`${API_BASE_URL}/repos/${owner}/${repo}/issues/${issueNumber}`, {
+    const res = await axios.delete(`${API_BASE_URL}/repos/${owner}/${repo}/issues/${issueNumber}`, {
       headers: {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
       },
     });
     return res.data;
   } catch (error) {
-    console.error('Error fetching issues', error);
+    console.error('Error deleting issues', error);
     throw error;
   }
 };
