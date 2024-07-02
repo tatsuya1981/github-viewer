@@ -22,6 +22,7 @@ export const userSlice = createSlice({
       .addCase(githubUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.data = action.payload;
+        console.log(state.data);
       })
       .addCase(githubUser.rejected, (state, action) => {
         state.status = 'failed';

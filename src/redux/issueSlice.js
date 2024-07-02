@@ -4,6 +4,7 @@ import { createIssue, fetchIssues, updateIssue, deleteIssue } from '../services/
 export const fetchIssuesAsync = createAsyncThunk('issues/fetchIssues', async (_, { getState }) => {
   const { owner, repo } = getState().repository;
   const issues = await fetchIssues(owner, repo);
+  console.log(issues);
   return issues;
 });
 
@@ -44,6 +45,7 @@ export const issueSlice = createSlice({
       .addCase(fetchIssuesAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.list = action.payload;
+        console.log(state.list);
       })
       .addCase(fetchIssuesAsync.rejected, (state, action) => {
         state.status = 'failed';

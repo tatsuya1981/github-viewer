@@ -23,7 +23,6 @@ export const apiData = async (username) => {
     });
     const reposData = reposRes.data;
     const privateReposCount = reposData.filter((repo) => repo.private).length;
-    console.log(reposData);
     return {
       ...userData,
       privateReposCount,
