@@ -51,7 +51,7 @@ export const Profile = () => {
             </div>
             <div>
               <SUserTitle>プライベートレポジトリ数</SUserTitle>
-              <SUserInfo>{user.privateReposCount}</SUserInfo>
+              <SUserInfo>{user.total_private_repos}</SUserInfo>
             </div>
           </SProfileContents>
         </SUserProfileContainer>
