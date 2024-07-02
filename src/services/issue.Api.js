@@ -10,6 +10,7 @@ export const fetchIssues = async (owner, repo) => {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
       },
     });
+    console.log(res.data);
     return res.data;
   } catch (error) {
     console.error('Error fetching issues', error);
