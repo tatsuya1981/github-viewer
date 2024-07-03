@@ -3,6 +3,7 @@ import { useState } from 'react';
 import IssueModal from './IssueModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, openModal } from '../../redux/modalSlice';
+import { today } from '../../date';
 
 export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => {
   const [selectedIssue, setSelectedIssue] = useState(null);
@@ -67,11 +68,15 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
                   value={issue.number}
                 ></input>
               </SIssueBodyCheckBox>
-              <SIssueBodyTableTitle>{issue.title}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>
+                <a href={issue.html_url} onClick={(event) => event.stopPropagation()}>
+                  {issue.title}
+                </a>
+              </SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.state}</SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.user.login}</SIssueBodyTableTitle>
-              <SIssueBodyTableTitle>{issue.createdAt}</SIssueBodyTableTitle>
-              <SIssueBodyTableTitle>{issue.updatedAt}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>{today(issue.created_at)}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>{today(issue.updated_at)}</SIssueBodyTableTitle>
             </SIssueTableRow>
           ))}
         </tbody>
