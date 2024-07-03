@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 import { Search } from '../organisms/search/Index';
 import { IssueTable } from '../organisms/IssueTable';
-import { useSelector } from 'react-redux';
-import { useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useMemo, useState } from 'react';
+import { fetchIssuesAsync } from '../../redux/issueSlice';
 
 export const Issue = () => {
+  const dispatch = useDispatch();
   const issueList = useSelector((state) => state.issues.list);
+  useEffect(() => {
+    dispatch(fetchIssuesAsync());
+  }, [dispatch]);
+
   console.log(issueList);
   const [keyword, setKeyword] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);

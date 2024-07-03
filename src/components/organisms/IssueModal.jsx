@@ -14,7 +14,7 @@ const statusOptions = [
 const IssueModal = ({ isOpen, onClose, issue = {} }) => {
   const isEdit = issue.id;
   const [title, setTitle] = useState(isEdit ? issue.title : '');
-  const [description, setDescription] = useState(isEdit ? issue.description : '');
+  const [description, setDescription] = useState(isEdit ? issue.body : '');
   const [errorMessage, setErrormessage] = useState('');
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data);
