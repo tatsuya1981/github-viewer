@@ -12,13 +12,14 @@ const statusOptions = [
 ];
 
 const IssueModal = ({ isOpen, onClose, issue = {} }) => {
+  console.log(issue.state);
   const isEdit = issue.id;
   const [title, setTitle] = useState(isEdit ? issue.title : '');
   const [description, setDescription] = useState(isEdit ? issue.body : '');
   const [errorMessage, setErrormessage] = useState('');
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data);
-  const [selectedStatus, setSelectedStatus] = useState(isEdit ? { value: issue.status, label: issue.status } : null);
+  const [selectedStatus, setSelectedStatus] = useState(isEdit ? { value: issue.state, label: issue.state } : null);
 
   const handleSubmit = () => {
     if (!title) {
@@ -31,9 +32,9 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
 
     const newIssue = {
       title,
-      status: isEdit ? selectedStatus.value : 'Open',
-      description,
-      updatedAt: today(),
+      status: isEdit ? selectedStatus.value.toLowerCase() : 'Open',
+      body: description,
+      updatedAt: today(issue.updated_at),
     };
 
     if (isEdit) {
@@ -42,7 +43,7 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
       dispatch(updateIssuesAsync({ issueNumber: issue.number, updatedIssue: newIssue }));
     } else {
       newIssue.user = user.userName;
-      newIssue.createdAt = today();
+      newIssue.createdAt = today(issue.created_at);
       dispatch(createIssuesAsync(newIssue));
     }
 
