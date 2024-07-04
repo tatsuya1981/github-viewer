@@ -32,7 +32,7 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
 
     const newIssue = {
       title,
-      status: isEdit ? selectedStatus.value.toLowerCase() : 'Open',
+      state: isEdit ? selectedStatus.value.toLowerCase() : 'Open',
       body: description,
       updatedAt: today(issue.updated_at),
     };
