@@ -130,3 +130,5 @@ const SIssueBodyTableTitle = styled.td`
   min-width: 10rem;
   border-bottom: 1px solid rgb(225, 228, 232);
 `;
+
+const SIssueBodyTableLink = styled.a``;
