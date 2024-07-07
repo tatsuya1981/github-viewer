@@ -69,9 +69,9 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
                 ></input>
               </SIssueBodyCheckBox>
               <SIssueBodyTableTitle>
-                <a href={issue.html_url} onClick={(event) => event.stopPropagation()}>
+                <SIssueBodyTableLink href={issue.html_url} onClick={(event) => event.stopPropagation()}>
                   {issue.title}
-                </a>
+                </SIssueBodyTableLink>
               </SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.state}</SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.user.login}</SIssueBodyTableTitle>
@@ -131,4 +131,10 @@ const SIssueBodyTableTitle = styled.td`
   border-bottom: 1px solid rgb(225, 228, 232);
 `;
 
-const SIssueBodyTableLink = styled.a``;
+const SIssueBodyTableLink = styled.a`
+  text-decoration: none;
+  color: rgb(0, 0, 238);
+  &:hover {
+    text-decoration: underline;
+  }
+`;
