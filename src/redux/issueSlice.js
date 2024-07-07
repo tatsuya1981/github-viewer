@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createIssue, fetchIssues, updateIssue, deleteIssue } from '../services/issue.Api';
+import { createIssue, fetchIssues, updateIssue, closeIssue } from '../services/issue.Api';
 
 export const fetchIssuesAsync = createAsyncThunk('issues/fetchIssues', async (_, { getState }) => {
   const { owner, repo } = getState().repository;
@@ -23,10 +23,10 @@ export const updateIssuesAsync = createAsyncThunk(
   },
 );
 
-export const deleteIssuesAsync = createAsyncThunk('issues/deleteIssue', async (issueNumber, { getState }) => {
+export const closeIssuesAsync = createAsyncThunk('issues/closeIssue', async (issueNumber, { getState }) => {
   const { owner, repo } = getState().repository;
-  await deleteIssue(owner, repo, issueNumber);
-  return issueNumber;
+  const closedIssue = await closeIssue(owner, repo, issueNumber);
+  return closedIssue;
 });
 
 export const issueSlice = createSlice({
@@ -60,8 +60,11 @@ export const issueSlice = createSlice({
           state.list[index] = action.payload;
         }
       })
-      .addCase(deleteIssuesAsync.fulfilled, (state, action) => {
-        state.list = state.list.filter((issue) => issue.number !== action.payload);
+      .addCase(closeIssuesAsync.fulfilled, (state, action) => {
+        const index = state.list.findIndex((issue) => issue.number === action.payload.number);
+        if (index !== -1) {
+          state.list[index] = action.payload;
+        }
       });
   },
 });
