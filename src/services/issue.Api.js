@@ -46,13 +46,17 @@ export const updateIssue = async (owner, repo, issueNumber, updatedIssue) => {
   }
 };
 
-export const deleteIssue = async (owner, repo, issueNumber) => {
+export const closeIssue = async (owner, repo, issueNumber) => {
   try {
-    const res = await axios.delete(`${API_BASE_URL}/repos/${owner}/${repo}/issues/${issueNumber}`, {
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
+    const res = await axios.patch(
+      `${API_BASE_URL}/repos/${owner}/${repo}/issues/${issueNumber}`,
+      { state: 'closed' },
+      {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
       },
-    });
+    );
     return res.data;
   } catch (error) {
     console.error('Error deleting issues', error);

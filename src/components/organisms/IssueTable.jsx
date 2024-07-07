@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import IssueModal from './IssueModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, openModal } from '../../redux/modalSlice';
@@ -8,8 +8,31 @@ import { today } from '../../date';
 export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => {
   const [selectedIssue, setSelectedIssue] = useState(null);
   const dispatch = useDispatch();
-  const allSelected = issues.length > 0 && selectedItems.length === issues.length;
   const isModalOpen = useSelector((state) => state.modal.isOpen);
+
+  const allSelected = issues.length > 0 && selectedItems.length === issues.length;
+
+  useEffect(() => {
+    setSelectedItems((prevSelected) => prevSelected.filter((id) => issues.some((issue) => issue.number === id)));
+  }, [issues, setSelectedItems]);
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedItems(issues.map((issue) => issue.number));
+    } else {
+      setSelectedItems([]);
+    }
+  };
+
+  const handleSelectItem = (issueNumber) => {
+    setSelectedItems((prevSelected) => {
+      if (prevSelected.includes(issueNumber)) {
+        return prevSelected.filter((id) => id !== issueNumber);
+      } else {
+        return [...prevSelected, issueNumber];
+      }
+    });
+  };
 
   const handleIssueClick = (issue) => {
     setSelectedIssue(issue);
@@ -27,17 +50,7 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
         <thead>
           <tr>
             <SIssueCheckBox>
-              <input
-                type="checkbox"
-                checked={allSelected}
-                onChange={() => {
-                  if (allSelected) {
-                    setSelectedItems([]);
-                  } else {
-                    setSelectedItems(issues.map((issue) => issue.id));
-                  }
-                }}
-              ></input>
+              <input type="checkbox" checked={allSelected} onChange={handleSelectAll}></input>
             </SIssueCheckBox>
             <SIssueTableTitle></SIssueTableTitle>
             <SIssueTableTitle>ステータス</SIssueTableTitle>
@@ -57,21 +70,14 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
                 <input
                   type="checkbox"
                   checked={selectedItems.includes(issue.number)}
-                  onChange={(e) => {
-                    const selectedNumber = Number(e.target.value);
-                    if (selectedItems.includes(selectedNumber)) {
-                      setSelectedItems(selectedItems.filter((number) => number !== selectedNumber));
-                    } else {
-                      setSelectedItems([...selectedItems, selectedNumber]);
-                    }
-                  }}
-                  value={issue.number}
+                  onChange={() => handleSelectItem(issue.number)}
+                  onClick={(e) => e.stopPropagation()}
                 ></input>
               </SIssueBodyCheckBox>
               <SIssueBodyTableTitle>
-                <a href={issue.html_url} onClick={(event) => event.stopPropagation()}>
+                <SIssueBodyTableLink href={issue.html_url} onClick={(event) => event.stopPropagation()}>
                   {issue.title}
-                </a>
+                </SIssueBodyTableLink>
               </SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.state}</SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.user.login}</SIssueBodyTableTitle>
@@ -129,4 +135,12 @@ const SIssueBodyTableTitle = styled.td`
   text-align: left;
   min-width: 10rem;
   border-bottom: 1px solid rgb(225, 228, 232);
+`;
+
+const SIssueBodyTableLink = styled.a`
+  text-decoration: none;
+  color: rgb(0, 0, 238);
+  &:hover {
+    text-decoration: underline;
+  }
 `;
