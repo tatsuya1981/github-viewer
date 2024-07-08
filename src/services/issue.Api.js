@@ -10,8 +10,9 @@ export const fetchIssues = async (owner, repo) => {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
       },
     });
-    console.log(res.data);
-    return res.data;
+    const issues = res.data.filter((item) => !('pull_request' in item));
+    console.log(issues);
+    return issues;
   } catch (error) {
     console.error('Error fetching issues', error);
     throw error;

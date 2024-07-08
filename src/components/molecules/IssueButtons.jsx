@@ -18,8 +18,20 @@ export const IssueButtons = ({ selectedItems, setSelectedItems }) => {
   };
 
   const handleCloseIssue = () => {
-    selectedItems.forEach((issueNumber) => dispatch(closeIssuesAsync(issueNumber)));
-    setSelectedItems([]);
+    if (selectedItems.length === 0) {
+      alert('issueが選択されていません!');
+      return;
+    }
+    const issueCount = selectedItems.length;
+    const confirmMessage =
+      issueCount === 1
+        ? '選択されたissueを本当に削除しますか？'
+        : `選択された${issueCount}件のissueを本当に削除しますか？`;
+
+    if (window.confirm(confirmMessage)) {
+      selectedItems.forEach((issueNumber) => dispatch(closeIssuesAsync(issueNumber)));
+      setSelectedItems([]);
+    }
   };
 
   return (
