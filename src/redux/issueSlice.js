@@ -1,16 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createIssue, fetchIssues, updateIssue, closeIssue } from '../services/issue.Api';
+import { NotificationManager } from 'react-notifications';
 
 export const fetchIssuesAsync = createAsyncThunk('issues/fetchIssues', async (_, { getState }) => {
   const { owner, repo } = getState().repository;
   const issues = await fetchIssues(owner, repo);
-  console.log(issues);
   return issues;
 });
 
 export const createIssuesAsync = createAsyncThunk('issues/createIssue', async (issue, { getState }) => {
   const { owner, repo } = getState().repository;
   const newIssue = await createIssue(owner, repo, issue);
+  NotificationManager.success('noda', '成功', '3000');
   return newIssue;
 });
 
