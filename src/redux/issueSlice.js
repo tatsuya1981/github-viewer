@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createIssue, fetchIssues, updateIssue, closeIssue } from '../services/issue.Api';
-import { NotificationManager } from 'react-notifications';
 
 export const fetchIssuesAsync = createAsyncThunk('issues/fetchIssues', async (_, { getState }) => {
   const { owner, repo } = getState().repository;
@@ -11,7 +10,7 @@ export const fetchIssuesAsync = createAsyncThunk('issues/fetchIssues', async (_,
 export const createIssuesAsync = createAsyncThunk('issues/createIssue', async (issue, { getState }) => {
   const { owner, repo } = getState().repository;
   const newIssue = await createIssue(owner, repo, issue);
-  NotificationManager.success('noda', '成功', '3000');
+
   return newIssue;
 });
 
@@ -26,8 +25,8 @@ export const updateIssuesAsync = createAsyncThunk(
 
 export const closeIssuesAsync = createAsyncThunk('issues/closeIssue', async (issueNumber, { getState }) => {
   const { owner, repo } = getState().repository;
-  const closedIssue = await closeIssue(owner, repo, issueNumber);
-  return closedIssue;
+  const closedIssue = await Promise.all(issueNumber.map((issueNumber) => closeIssue(owner, repo, issueNumber)));
+  return { closedIssue, shouldNotify: true };
 });
 
 export const issueSlice = createSlice({
@@ -62,9 +61,15 @@ export const issueSlice = createSlice({
         }
       })
       .addCase(closeIssuesAsync.fulfilled, (state, action) => {
-        const index = state.list.findIndex((issue) => issue.number === action.payload.number);
-        if (index !== -1) {
-          state.list[index] = action.payload;
+        if (Array.isArray(action.payload.closedIssue)) {
+          action.payload.closedIssue.forEach((closedIssue) => {
+            if (closedIssue && closedIssue.number) {
+              const index = state.list.findIndex((issue) => issue.number === closedIssue.number);
+              if (index !== -1) {
+                state.list[index] = closedIssue;
+              }
+            }
+          });
         }
       });
   },
