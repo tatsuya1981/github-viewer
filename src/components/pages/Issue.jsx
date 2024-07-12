@@ -12,7 +12,6 @@ export const Issue = () => {
     dispatch(fetchIssuesAsync());
   }, [dispatch]);
 
-  console.log(issueList);
   const [keyword, setKeyword] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
   const filteredIssues = useMemo(() => {

@@ -12,7 +12,6 @@ const statusOptions = [
 ];
 
 const IssueModal = ({ isOpen, onClose, issue = {} }) => {
-  console.log(issue.state);
   const isEdit = issue.id;
   const [title, setTitle] = useState(isEdit ? issue.title : '');
   const [description, setDescription] = useState(isEdit ? issue.body : '');
