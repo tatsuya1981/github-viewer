@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { createIssuesAsync, updateIssuesAsync } from '../../redux/issueSlice';
 import Select from 'react-select';
 import Button from '../atoms/button/Index';
-import { today } from '../../date';
+import { setDate } from '../../date';
 
 const statusOptions = [
   { value: 'Open', label: 'Open' },
@@ -33,7 +33,7 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
       title,
       state: isEdit ? selectedStatus.value.toLowerCase() : 'Open',
       body: description,
-      updatedAt: today(issue.updated_at),
+      updatedAt: setDate(issue.updated_at),
     };
 
     if (isEdit) {
@@ -42,7 +42,7 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
       dispatch(updateIssuesAsync({ issueNumber: issue.number, updatedIssue: newIssue }));
     } else {
       newIssue.user = user.userName;
-      newIssue.createdAt = today(issue.created_at);
+      newIssue.createdAt = setDate(issue.created_at);
       dispatch(createIssuesAsync(newIssue));
     }
 
