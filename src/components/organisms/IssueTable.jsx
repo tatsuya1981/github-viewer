@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import IssueModal from './IssueModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, openModal } from '../../redux/modalSlice';
-import { today } from '../../date';
+import { setDate } from '../../date';
 
 export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => {
   const [selectedIssue, setSelectedIssue] = useState(null);
@@ -81,8 +81,8 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
               </SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.state}</SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.user.login}</SIssueBodyTableTitle>
-              <SIssueBodyTableTitle>{today(issue.created_at)}</SIssueBodyTableTitle>
-              <SIssueBodyTableTitle>{today(issue.updated_at)}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>{setDate(issue.created_at)}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>{setDate(issue.updated_at)}</SIssueBodyTableTitle>
             </SIssueTableRow>
           ))}
         </tbody>

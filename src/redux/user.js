@@ -1,9 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { apiData } from '../services/userApi';
+import { fetchUser } from '../services/userApi';
+
+const toCamelCase = (str) => {
+  return str.replace(/[-_](.)/g, (_, c) => c.toUpperCase());
+};
+
+const keysToCamelCase = (obj) => {
+  if (typeof obj !== 'object' || obj === null) return obj;
+  if (Array.isArray(obj)) return obj.map(keysToCamelCase);
+  return Object.keys(obj).reduce((acc, key) => {
+    const camelKey = toCamelCase(key);
+    acc[camelKey] = keysToCamelCase(obj[key]);
+    return acc;
+  }, {});
+};
 
 export const githubUser = createAsyncThunk('user/githubUser', async (username) => {
-  const apiUser = await apiData(username);
-  return apiUser;
+  const apiUser = await fetchUser(username);
+  return keysToCamelCase(apiUser);
 });
 
 export const userSlice = createSlice({
@@ -25,7 +39,7 @@ export const userSlice = createSlice({
       })
       .addCase(githubUser.rejected, (state, action) => {
         state.status = 'failed';
-        state.data = action.error.message;
+        state.error = action.error.message;
       });
   },
 });
