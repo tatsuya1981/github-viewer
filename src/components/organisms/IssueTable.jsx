@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import IssueModal from './IssueModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, openModal } from '../../redux/modalSlice';
@@ -11,10 +11,6 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
   const isModalOpen = useSelector((state) => state.modal.isOpen);
 
   const allSelected = issues.length > 0 && selectedItems.length === issues.length;
-
-  useEffect(() => {
-    setSelectedItems((prevSelected) => prevSelected.filter((id) => issues.some((issue) => issue.number === id)));
-  }, [issues, setSelectedItems]);
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -75,14 +71,14 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
                 ></input>
               </SIssueBodyCheckBox>
               <SIssueBodyTableTitle>
-                <SIssueBodyTableLink href={issue.html_url} onClick={(event) => event.stopPropagation()}>
+                <SIssueBodyTableLink href={issue.htmlUrl} onClick={(event) => event.stopPropagation()}>
                   {issue.title}
                 </SIssueBodyTableLink>
               </SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.state}</SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.user.login}</SIssueBodyTableTitle>
-              <SIssueBodyTableTitle>{setDate(issue.created_at)}</SIssueBodyTableTitle>
-              <SIssueBodyTableTitle>{setDate(issue.updated_at)}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>{setDate(issue.createdAt)}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>{setDate(issue.updatedAt)}</SIssueBodyTableTitle>
             </SIssueTableRow>
           ))}
         </tbody>

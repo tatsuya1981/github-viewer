@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchUser } from '../services/userApi';
+import { fetchUser } from '../services/api/user';
 
 const toCamelCase = (str) => {
   return str.replace(/[-_](.)/g, (_, c) => c.toUpperCase());

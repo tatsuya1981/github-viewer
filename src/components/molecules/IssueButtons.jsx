@@ -4,6 +4,7 @@ import IssueModal from '../organisms/IssueModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeIssuesAsync } from '../../redux/issueSlice';
 import { closeModal, openModal } from '../../redux/modalSlice';
+import { NotificationManager } from 'react-notifications';
 
 export const IssueButtons = ({ selectedItems, setSelectedItems }) => {
   const isModalOpen = useSelector((state) => state.modal.isOpen);
@@ -19,7 +20,7 @@ export const IssueButtons = ({ selectedItems, setSelectedItems }) => {
 
   const handleCloseIssue = () => {
     if (selectedItems.length === 0) {
-      alert('issueが選択されていません!');
+      NotificationManager.warning('issueが選択されていません', '警告', 10000);
       return;
     }
     const issueCount = selectedItems.length;

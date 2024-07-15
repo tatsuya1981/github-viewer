@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { githubUser } from '../../redux/user';
+import { githubUser } from '../../redux/userSlice';
 
 export const Profile = () => {
   const user = useSelector((state) => state.user.data);
