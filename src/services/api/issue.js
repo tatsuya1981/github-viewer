@@ -16,7 +16,7 @@ export const fetchIssues = async (owner, repo) => {
     const issues = res.data.filter((item) => !('pull_request' in item));
     return issues;
   } catch (error) {
-    console.error('Error fetching issues', error);
+    console.error('issues の取得に失敗', error);
     throw error;
   }
 };
@@ -26,7 +26,7 @@ export const createIssue = async (owner, repo, issue) => {
     const res = await instance.post(`/repos/${owner}/${repo}/issues`, issue);
     return res.data;
   } catch (error) {
-    console.error('Error creating issues', error);
+    console.error('issues の作成に失敗', error);
     throw error;
   }
 };
@@ -36,7 +36,7 @@ export const updateIssue = async (owner, repo, issueNumber, updatedIssue) => {
     const res = await instance.patch(`/repos/${owner}/${repo}/issues/${issueNumber}`, updatedIssue);
     return res.data;
   } catch (error) {
-    console.error('Error updating issues', error);
+    console.error('issues の更新に失敗', error);
     throw error;
   }
 };
@@ -46,7 +46,7 @@ export const closeIssue = async (owner, repo, issueNumber) => {
     const res = await instance.patch(`/repos/${owner}/${repo}/issues/${issueNumber}`, { state: 'closed' });
     return res.data;
   } catch (error) {
-    console.error('Error closing issues', error);
+    console.error('issues の close に失敗', error);
     throw error;
   }
 };
