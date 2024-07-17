@@ -38,13 +38,6 @@ export const IssueButtons = ({ selectedItems, setSelectedItems }) => {
       dispatch(closeIssuesAsync(selectedItems));
       setSelectedItems([]);
     }
-
-    // if (issueStatus === 'failed') {
-    //   if (issueLastAction === 'close')
-    //     NotificationManager.error('issue の close に失敗しました', `${issueLastAction} 失敗`, 10000);
-    // } else if (issueStatus === 'succeeded') {
-    //   NotificationManager.success(`issue を${issueCloseCount} 件closeしました`, `${issueLastAction} 成功`, 10000);
-    // }
   };
 
   useEffect(() => {
