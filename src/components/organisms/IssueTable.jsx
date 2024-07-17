@@ -3,7 +3,7 @@ import { useState } from 'react';
 import IssueModal from './IssueModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, openModal } from '../../redux/modalSlice';
-import { setDate } from '../../date';
+import { formatDate } from '../../date';
 
 export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => {
   const [selectedIssue, setSelectedIssue] = useState(null);
@@ -77,8 +77,8 @@ export const IssueTable = ({ issues = [], selectedItems, setSelectedItems }) => 
               </SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.state}</SIssueBodyTableTitle>
               <SIssueBodyTableTitle>{issue.user.login}</SIssueBodyTableTitle>
-              <SIssueBodyTableTitle>{setDate(issue.createdAt)}</SIssueBodyTableTitle>
-              <SIssueBodyTableTitle>{setDate(issue.updatedAt)}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>{formatDate(issue.createdAt)}</SIssueBodyTableTitle>
+              <SIssueBodyTableTitle>{formatDate(issue.updatedAt)}</SIssueBodyTableTitle>
             </SIssueTableRow>
           ))}
         </tbody>

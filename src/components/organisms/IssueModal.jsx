@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { createIssuesAsync, updateIssuesAsync } from '../../redux/issueSlice';
+import { createIssuesAsync, resetStatus, updateIssuesAsync } from '../../redux/issueSlice';
 import Select from 'react-select';
 import Button from '../atoms/button/Index';
-import { setDate } from '../../date';
+import { formatDate } from '../../date';
+import { NotificationManager } from 'react-notifications';
 
 const statusOptions = [
   { value: 'Open', label: 'Open' },
@@ -18,6 +19,8 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
   const [errorMessage, setErrormessage] = useState('');
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data);
+  const issueStatus = useSelector((state) => state.issues.status);
+  const issueLastAction = useSelector((state) => state.issues.lastAction);
   const [selectedStatus, setSelectedStatus] = useState(isEdit ? { value: issue.state, label: issue.state } : null);
 
   const handleSubmit = () => {
@@ -33,7 +36,7 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
       title,
       state: isEdit ? selectedStatus.value.toLowerCase() : 'Open',
       body: description,
-      updatedAt: setDate(issue.updated_at),
+      updatedAt: formatDate(issue.updated_at),
     };
 
     if (isEdit) {
@@ -42,7 +45,7 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
       dispatch(updateIssuesAsync({ issueNumber: issue.number, updatedIssue: newIssue }));
     } else {
       newIssue.user = user.userName;
-      newIssue.createdAt = setDate(issue.created_at);
+      newIssue.createdAt = formatDate(issue.created_at);
       dispatch(createIssuesAsync(newIssue));
     }
 
@@ -51,6 +54,31 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
     setDescription('');
     setErrormessage('');
   };
+
+  useEffect(() => {
+    const messages = {
+      failed: {
+        create: 'issueを作成できませんでした',
+        update: 'issueを更新できませんでした',
+      },
+      succeeded: {
+        create: 'issueを作成しました',
+        update: 'issueを更新しました',
+      },
+    };
+    if (issueStatus === 'failed') {
+      if (issueLastAction === 'create' || issueLastAction === 'update') {
+        NotificationManager.error(messages.failed[issueLastAction], `失敗`, 10000);
+      }
+    } else if (issueStatus === 'succeeded') {
+      if (issueLastAction === 'create' || issueLastAction === 'update') {
+        NotificationManager.success(messages.succeeded[issueLastAction], `成功`, 10000);
+      }
+    }
+    return () => {
+      dispatch(resetStatus());
+    };
+  }, [issueStatus, issueLastAction, dispatch]);
 
   const modalClose = () => {
     onClose();
