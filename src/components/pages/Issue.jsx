@@ -3,32 +3,24 @@ import { Search } from '../organisms/search/Index';
 import { IssueTable } from '../organisms/IssueTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
-import { fetchIssuesAsync, resetStatus } from '../../redux/issueSlice';
+import { fetchIssuesAsync } from '../../redux/issueSlice';
 import { NotificationManager } from 'react-notifications';
 
 export const Issue = () => {
   const dispatch = useDispatch();
   const issueList = useSelector((state) => state.issues.list);
-  const issueStatus = useSelector((state) => state.issues.status);
-  const issueLastAction = useSelector((state) => state.issues.lastAction);
 
   useEffect(() => {
-    dispatch(fetchIssuesAsync());
+    const fetchIssues = async () => {
+      try {
+        await dispatch(fetchIssuesAsync()).unwrap();
+      } catch (error) {
+        console.error('エラー発生！', error);
+        NotificationManager.error('一覧を取得できませんでした', '失敗', 10000);
+      }
+    };
+    fetchIssues();
   }, [dispatch]);
-
-  useEffect(() => {
-    const messages = {
-      failed: {
-        fetch: 'issueを取得できませんでした',
-      },
-    };
-    if (issueStatus === 'failed') {
-      if (issueLastAction === 'fetch') NotificationManager.error(messages.failed[issueLastAction], `失敗`, 10000);
-    }
-    return () => {
-      dispatch(resetStatus());
-    };
-  }, [issueStatus, issueLastAction, dispatch]);
 
   const [keyword, setKeyword] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
