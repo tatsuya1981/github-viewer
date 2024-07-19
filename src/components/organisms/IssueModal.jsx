@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { createIssuesAsync, updateIssuesAsync } from '../../redux/issueSlice';
 import Select from 'react-select';
 import Button from '../atoms/button/Index';
-import { today } from '../../date';
+import { formatDate } from '../../date';
+import { NotificationManager } from 'react-notifications';
 
 const statusOptions = [
   { value: 'Open', label: 'Open' },
@@ -12,16 +13,22 @@ const statusOptions = [
 ];
 
 const IssueModal = ({ isOpen, onClose, issue = {} }) => {
-  console.log(issue.state);
   const isEdit = issue.id;
   const [title, setTitle] = useState(isEdit ? issue.title : '');
   const [description, setDescription] = useState(isEdit ? issue.body : '');
   const [errorMessage, setErrormessage] = useState('');
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.data);
   const [selectedStatus, setSelectedStatus] = useState(isEdit ? { value: issue.state, label: issue.state } : null);
+  const user = useSelector((state) => state.user.data);
+  const dispatch = useDispatch();
 
-  const handleSubmit = () => {
+  const modalClose = () => {
+    onClose();
+    setTitle('');
+    setDescription('');
+    setErrormessage('');
+  };
+
+  const handleSubmit = async () => {
     if (!title) {
       setErrormessage('タイトルを入力して下さい');
       return;
@@ -34,30 +41,26 @@ const IssueModal = ({ isOpen, onClose, issue = {} }) => {
       title,
       state: isEdit ? selectedStatus.value.toLowerCase() : 'Open',
       body: description,
-      updatedAt: today(issue.updated_at),
+      updatedAt: formatDate(issue.updated_at),
     };
-
-    if (isEdit) {
-      newIssue.id = isEdit;
-      newIssue.createdAt = issue.createdAt;
-      dispatch(updateIssuesAsync({ issueNumber: issue.number, updatedIssue: newIssue }));
-    } else {
-      newIssue.user = user.userName;
-      newIssue.createdAt = today(issue.created_at);
-      dispatch(createIssuesAsync(newIssue));
+    try {
+      if (isEdit) {
+        newIssue.id = isEdit;
+        newIssue.createdAt = issue.createdAt;
+        await dispatch(updateIssuesAsync({ issueNumber: issue.number, updatedIssue: newIssue })).unwrap();
+        NotificationManager.success('Issueを更新しました', '成功', 10000);
+      } else {
+        newIssue.user = user.userName;
+        newIssue.createdAt = formatDate(issue.created_at);
+        await dispatch(createIssuesAsync(newIssue)).unwrap();
+        NotificationManager.success('Issueを作成しました', '成功', 10000);
+      }
+      modalClose();
+    } catch (error) {
+      console.error('エラー発生！', error);
+      NotificationManager.error(isEdit ? 'Issueを更新できませんでした' : 'Issueを作成できませんでした', '失敗', 10000);
+      modalClose();
     }
-
-    onClose();
-    setTitle('');
-    setDescription('');
-    setErrormessage('');
-  };
-
-  const modalClose = () => {
-    onClose();
-    setTitle('');
-    setDescription('');
-    setErrormessage('');
   };
 
   if (!isOpen) return null;

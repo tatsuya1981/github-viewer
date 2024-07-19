@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import issueReducer from './issueSlice';
-import userReducer from './user';
+import userReducer from './userSlice';
 import modalReducer from './modalSlice';
 import repositoryReducer from './repositorySlice';
 

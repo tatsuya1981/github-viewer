@@ -4,15 +4,24 @@ import { IssueTable } from '../organisms/IssueTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useState } from 'react';
 import { fetchIssuesAsync } from '../../redux/issueSlice';
+import { NotificationManager } from 'react-notifications';
 
 export const Issue = () => {
   const dispatch = useDispatch();
   const issueList = useSelector((state) => state.issues.list);
+
   useEffect(() => {
-    dispatch(fetchIssuesAsync());
+    const fetchIssues = async () => {
+      try {
+        await dispatch(fetchIssuesAsync()).unwrap();
+      } catch (error) {
+        console.error('エラー発生！', error);
+        NotificationManager.error('一覧を取得できませんでした', '失敗', 10000);
+      }
+    };
+    fetchIssues();
   }, [dispatch]);
 
-  console.log(issueList);
   const [keyword, setKeyword] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
   const filteredIssues = useMemo(() => {

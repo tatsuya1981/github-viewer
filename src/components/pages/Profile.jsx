@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { githubUser } from '../../redux/user';
+import { githubUser } from '../../redux/userSlice';
 
 export const Profile = () => {
   const user = useSelector((state) => state.user.data);
@@ -23,7 +23,7 @@ export const Profile = () => {
           <SProfileContents>
             <SUserTitle>プロフィール</SUserTitle>
             <SUserInfo>
-              <SAvatarImage src={user.avatar_url} alt="profile" />
+              <SAvatarImage src={user.avatarUrl} alt="profile" />
             </SUserInfo>
           </SProfileContents>
           <SProfileContents>
@@ -34,7 +34,7 @@ export const Profile = () => {
             <div>
               <SUserTitle>アカウントURL</SUserTitle>
               <SUserInfo>
-                <a href={user.html_url}>{user.html_url}</a>
+                <a href={user.htmlUrl}>{user.htmlUrl}</a>
               </SUserInfo>
             </div>
             <div>
@@ -47,11 +47,11 @@ export const Profile = () => {
             </div>
             <div>
               <SUserTitle>パブリックレポジトリ数</SUserTitle>
-              <SUserInfo>{user.public_repos}</SUserInfo>
+              <SUserInfo>{user.publicRepos}</SUserInfo>
             </div>
             <div>
               <SUserTitle>プライベートレポジトリ数</SUserTitle>
-              <SUserInfo>{user.total_private_repos}</SUserInfo>
+              <SUserInfo>{user.totalPrivateRepos}</SUserInfo>
             </div>
           </SProfileContents>
         </SUserProfileContainer>
