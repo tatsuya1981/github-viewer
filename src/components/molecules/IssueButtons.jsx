@@ -31,8 +31,8 @@ export const IssueButtons = ({ selectedItems, setSelectedItems }) => {
         : `選択された${issueCount}件のissueを本当に閉じますか？`;
     try {
       if (window.confirm(confirmMessage)) {
-        await dispatch(closeIssuesAsync(selectedItems)).unwrap();
-        NotificationManager.success(`Issueを${issueCloseCount}件closeしました`, '成功', 10000);
+        const result = await dispatch(closeIssuesAsync(selectedItems)).unwrap();
+        NotificationManager.success(`Issueを${result.count}件closeしました`, '成功', 10000);
         setSelectedItems([]);
       }
     } catch (error) {
