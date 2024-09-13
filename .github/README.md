@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+# Redux Github Viewer (API 通信)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 概要
+Reactを使ったAPI通信をキャッチアップする為に作成したミニアプリです。
+実際に[Github REST API](https://docs.github.com/ja/rest/overview/resources-in-the-rest-api/)を使用して、自身のリポジトリのissueに対してCRUDができるようにしてあります。（プルリクエストは未実装）
 
-## Available Scripts
+## デモ
 
-In the project directory, you can run:
+GithubPagesではなく[Netlify](https://www.netlify.com/)にデプロイして公開しています。
 
-### `yarn start`
+デモ: [https://github-viewer-2024.netlify.app](https://github-viewer-2024.netlify.app)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 学習で身に着けること
 
-### `yarn test`
+- Reduxでの状態管理
+- React Routerでのページ設定とページ遷移
+- Eslint + Prettier
+- HTTPリクエスト/レスポンスの仕組み
+- AjaxでのHTTPリクエストの実装
+- Promise, Async, Await
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 実装に必要な概念を学ぶ
 
-### `yarn build`
+#### Redux
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [Redux.js 公式](https://redux.js.org/introduction/getting-started)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### REST APIについて
+- [HTTPリクエスト/レスポンスの構成要素を初心者にも分かるように解説してみた](https://qiita.com/koheiyamaguchi0203/items/5777c4653a01ae4c7b06)
+- [初心者目線でAjaxの説明](https://qiita.com/hisamura333/items/e3ea6ae549eb09b7efb9)
+- [RESTful Web API の設計](https://learn.microsoft.com/ja-jp/azure/architecture/best-practices/api-design)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 環境変数とNode.jsのprocess.env
 
-### `yarn eject`
+- [環境設定を行う！Node.jsのenvの使い方【初心者向け】](https://techacademy.jp/magazine/16243)
+- [環境変数ってなに? ( Linux )](https://qiita.com/angel_p_57/items/480e3fd4552e52199835)
+- [create-react-appで独自の環境変数を読み込む](https://qiita.com/zgmf_mbfp03/items/008436c5749d65f96e55)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### HTTPクライアントのAxios
+- [Axios公式](https://github.com/axios/axios)
+- [axiosライブラリを使ってリクエストする](https://qiita.com/reflet/items/d5658d5d69e8e1ccd489)
+- [axios、async/awaitを使ったHTTPリクエスト(Web APIを実行)](https://qiita.com/shisama/items/61cdcc09dc69fd8d3127)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### JavaScriptのアドバンスな機能
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Promise async, wait
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- [Promiseの使い方、それに代わるasync/awaitの使い方](https://qiita.com/suin/items/97041d3e0691c12f4974)
 
-## Learn More
+#### トースト（Notification)について
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[react-toastify](https://github.com/fkhadra/react-toastify)というライブラリをつかってサイト内のトーストは実行しています。
