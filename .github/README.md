@@ -8,7 +8,9 @@ Reactを使ったAPI通信をキャッチアップする為に作成したミニ
 
 GithubPagesではなく[Netlify](https://www.netlify.com/)にデプロイして公開しています。
 
-デモ: [https://github-viewer-2024.netlify.app](https://github-viewer-2024.netlify.app)
+デモ: [https://github-viewer-2024.netlify.app](https://github-viewer-2024.netlify.app)  
+
+![](/img/main.png)
 
 
 ## 学習で身に着けること
