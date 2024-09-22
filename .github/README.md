@@ -1,5 +1,8 @@
 # Redux Github Viewer (API 通信)
 
+## デモ
+https://github-viewer-2024.netlify.app/
+
 ## 概要
 Reactを使ったAPI通信をキャッチアップする為に作成したミニアプリです。  
 実際に[Github REST API](https://docs.github.com/ja/rest/overview/resources-in-the-rest-api/)を使用して、自身のリポジトリのissueに対してCRUDができるようにしてあります。（プルリクエストは未実装）
